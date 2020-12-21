@@ -1,0 +1,5 @@
+dwsucos/type=javax.sql.DataSource
+dwsucos/driver=org.postgresql.Driver
+dwsucos/url=jdbc:postgres://localhost:5432/dwsucos
+dwsucos/user=admin
+dwsucos/password=123
