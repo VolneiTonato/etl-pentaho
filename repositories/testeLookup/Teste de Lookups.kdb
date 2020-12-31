@@ -1,5 +1,5 @@
   <connection>
-    <name>Datawarehouse Sucos</name>
+    <name>Teste de Lookups</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>

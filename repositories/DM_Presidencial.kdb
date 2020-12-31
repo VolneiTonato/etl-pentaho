@@ -1,5 +1,5 @@
   <connection>
-    <name>Datawarehouse Sucos</name>
+    <name>DM_Presidencial</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>

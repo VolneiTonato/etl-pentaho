@@ -7,7 +7,7 @@
   <created_user>-</created_user>
   <created_date>2020/12/21 18:32:09.681</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2020/12/21 18:46:06.332</modified_date>
+  <modified_date>2020/12/23 10:57:06.461</modified_date>
   <parameters>
     </parameters>
   <slaveservers>
@@ -286,7 +286,7 @@
   <shared_objects_file/>
   <entries>
     <entry>
-      <name>Inicializacao</name>
+      <name>Start</name>
       <description/>
       <type>SPECIAL</type>
       <attributes/>
@@ -386,19 +386,6 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>Abort job Cliente</name>
-      <description/>
-      <type>ABORT</type>
-      <attributes/>
-      <message/>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>432</xloc>
-      <yloc>80</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
       <name>Abort job Fabrica</name>
       <description/>
       <type>ABORT</type>
@@ -412,18 +399,6 @@
       <attributes_kjc/>
     </entry>
     <entry>
-      <name>Success Cliente</name>
-      <description/>
-      <type>SUCCESS</type>
-      <attributes/>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>560</xloc>
-      <yloc>208</yloc>
-      <attributes_kjc/>
-    </entry>
-    <entry>
       <name>Success Fabrica</name>
       <description/>
       <type>SUCCESS</type>
@@ -431,14 +406,39 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>560</xloc>
+      <xloc>624</xloc>
       <yloc>304</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>Abort job Cliente</name>
+      <description/>
+      <type>ABORT</type>
+      <attributes/>
+      <message/>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>432</xloc>
+      <yloc>80</yloc>
+      <attributes_kjc/>
+    </entry>
+    <entry>
+      <name>Success Cliente</name>
+      <description/>
+      <type>SUCCESS</type>
+      <attributes/>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>640</xloc>
+      <yloc>208</yloc>
       <attributes_kjc/>
     </entry>
   </entries>
   <hops>
     <hop>
-      <from>Inicializacao</from>
+      <from>Start</from>
       <to>Carga Cliente</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -447,22 +447,13 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Inicializacao</from>
+      <from>Start</from>
       <to>Carga Fábrica</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
-    </hop>
-    <hop>
-      <from>Carga Fábrica</from>
-      <to>Abort job Fabrica</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
     </hop>
     <hop>
       <from>Carga Cliente</from>
@@ -489,6 +480,15 @@
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carga Fábrica</from>
+      <to>Abort job Fabrica</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

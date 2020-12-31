@@ -428,7 +428,7 @@
     <created_user>-</created_user>
     <created_date>2020/12/20 18:51:41.538</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2020/12/20 21:21:49.819</modified_date>
+    <modified_date>2020/12/30 11:07:59.373</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
@@ -439,7 +439,7 @@
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>sw_sucos</database>
+    <database>bi_pentaho</database>
     <port>5432</port>
     <username>admin</username>
     <password>Encrypted 2be98afc86aa7f2e4cb79ce10bec3fd89</password>
@@ -537,6 +537,50 @@
       <enabled>Y</enabled>
     </hop>
   </order>
+  <step>
+    <name>01 de Janeiro 2018 a 31 Dez 2021</name>
+    <type>RowGenerator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>Dia_Padrao</name>
+        <type>Date</type>
+        <format>yyyyMMdd</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>20180101</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <limit>1460</limit>
+    <never_ending>N</never_ending>
+    <interval_in_ms>5000</interval_in_ms>
+    <row_time_field>now</row_time_field>
+    <last_time_field>FiveSecondsAgo</last_time_field>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>112</xloc>
+      <yloc>144</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
   <step>
     <name>Achar o Semestre da Data</name>
     <type>ValueMapper</type>
@@ -760,50 +804,6 @@
     </GUI>
   </step>
   <step>
-    <name>01 de Janeiro 2018 a 31 Dez 2021</name>
-    <type>RowGenerator</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>Dia_Padrao</name>
-        <type>Date</type>
-        <format>yyyyMMdd</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>20180101</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-    <limit>1460</limit>
-    <never_ending>N</never_ending>
-    <interval_in_ms>5000</interval_in_ms>
-    <row_time_field>now</row_time_field>
-    <last_time_field>FiveSecondsAgo</last_time_field>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>112</xloc>
-      <yloc>144</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Incremento de Dia</name>
     <type>Sequence</type>
     <description/>
@@ -835,6 +835,94 @@
     <GUI>
       <xloc>224</xloc>
       <yloc>48</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Insert / update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Datawarehouse Sucos</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>sw_sucos</schema>
+      <table>dim_tempo</table>
+      <key>
+        <name>Cod_Tempo</name>
+        <field>cod_tempo</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cod_tempo</name>
+        <rename>Cod_Tempo</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>data</name>
+        <rename>Data</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>nome_mes</name>
+        <rename>Nome_Mes</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>numero_ano</name>
+        <rename>Numero_Ano</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>nome_semestre</name>
+        <rename>Nome_Semestre</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>nome_trimestre</name>
+        <rename>Nome_Trimestre</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>numero_dia_semana</name>
+        <rename>Numero_Dia_Semana</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>numero_mes</name>
+        <rename>Numero_Mes</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>numero_semestre</name>
+        <rename>Numero_Semestre</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>numero_trimestre</name>
+        <rename>Numero_Trimestre</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>656</xloc>
+      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1060,94 +1148,6 @@
     <GUI>
       <xloc>576</xloc>
       <yloc>64</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Insert / update</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>Datawarehouse Sucos</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>public</schema>
-      <table>dim_tempo</table>
-      <key>
-        <name>Cod_Tempo</name>
-        <field>cod_tempo</field>
-        <condition>=</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>cod_tempo</name>
-        <rename>Cod_Tempo</rename>
-        <update>N</update>
-      </value>
-      <value>
-        <name>data</name>
-        <rename>Data</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nome_mes</name>
-        <rename>Nome_Mes</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>numero_ano</name>
-        <rename>Numero_Ano</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nome_semestre</name>
-        <rename>Nome_Semestre</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nome_trimestre</name>
-        <rename>Nome_Trimestre</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>numero_dia_semana</name>
-        <rename>Numero_Dia_Semana</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>numero_mes</name>
-        <rename>Numero_Mes</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>numero_semestre</name>
-        <rename>Numero_Semestre</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>numero_trimestre</name>
-        <rename>Numero_Trimestre</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>656</xloc>
-      <yloc>448</yloc>
       <draw>Y</draw>
     </GUI>
   </step>

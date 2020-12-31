@@ -1,6 +1,6 @@
 <transformation>
   <info>
-    <name>DimensaoOrganizacional_Processo_1</name>
+    <name>TesteLookupFato</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -426,16 +426,16 @@
     <clusterschemas>
     </clusterschemas>
     <created_user>-</created_user>
-    <created_date>2020/12/20 14:31:37.197</created_date>
+    <created_date>2020/12/29 14:05:38.881</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2020/12/30 10:51:26.819</modified_date>
+    <modified_date>2020/12/30 11:29:36.440</modified_date>
     <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
-    <name>Datawarehouse Sucos</name>
+    <name>Teste de Lookups</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
@@ -487,18 +487,306 @@
   </connection>
   <order>
     <hop>
-      <from>LEITURA FUNCIONARIOS GRUPO 1</from>
-      <to>Inicializa Cod_pai Esquerda Direita Nivel</to>
+      <from>Leitura da Fonte</from>
+      <to>Filter Data</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Inicializa Cod_pai Esquerda Direita Nivel</from>
-      <to>Dimensao Organizacional</to>
+      <from>Filter Data</from>
+      <to>Conversão de Data</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Conversão de Data</from>
+      <to>Remover Coluna Data_Aux e Data</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Remover Coluna Data_Aux e Data</from>
+      <to>Buscar Id Pessoa Incremento</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Remover Coluna Data_Aux e Data</from>
+      <to>Buscar Id Pessoa</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Remover Coluna Data_Aux e Data</from>
+      <to>Buscar ID (Data)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Buscar Id Pessoa Incremento</from>
+      <to>Gravação Fato Incremento</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Buscar Id Pessoa</from>
+      <to>Gravação Fato</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Buscar ID (Data)</from>
+      <to>Gravação Fato Data</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Dimensao Organizacional</name>
+    <name>Buscar ID (Data)</name>
+    <type>DimensionLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <schema>teste_lookup</schema>
+    <table>dim_pessoa_data</table>
+    <connection>Teste de Lookups</connection>
+    <commit>100</commit>
+    <update>N</update>
+    <fields>
+      <key>
+        <name>CODIGO</name>
+        <lookup>cod_pessoa</lookup>
+      </key>
+      <date>
+        <name>DATA_FINAL</name>
+        <from>data_inicio</from>
+        <to>data_final</to>
+      </date>
+      <return>
+        <name>id_pessoa</name>
+        <rename/>
+        <creation_method>tablemax</creation_method>
+        <use_autoinc>N</use_autoinc>
+        <version>versao</version>
+      </return>
+    </fields>
+    <sequence/>
+    <min_year>1900</min_year>
+    <max_year>2199</max_year>
+    <cache_size>5000</cache_size>
+    <preload_cache>N</preload_cache>
+    <use_start_date_alternative>N</use_start_date_alternative>
+    <start_date_alternative>none</start_date_alternative>
+    <start_date_field_name/>
+    <useBatch>N</useBatch>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1072</xloc>
+      <yloc>384</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Buscar Id Pessoa</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Teste de Lookups</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>teste_lookup</schema>
+      <table>dim_pessoa</table>
+      <orderby>Id_Pessoa desc</orderby>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CODIGO</name>
+        <field>cod_pessoa</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_pessoa</name>
+        <rename>id_pessoa</rename>
+        <default>0</default>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1120</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Buscar Id Pessoa Incremento</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Teste de Lookups</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema>teste_lookup</schema>
+      <table>dim_pessoa_incremento</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>CODIGO</name>
+        <field>cod_pessoa</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_pessoa</name>
+        <rename>id_pessoa</rename>
+        <default>0</default>
+        <type>None</type>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1024</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Conversão de Data</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>DATA_AUX</field_name>
+      <calc_type>COPY_FIELD</calc_type>
+      <field_a>DATA</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>Date</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask>yyyyMMdd</conversion_mask>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>DATA_FINAL</field_name>
+      <calc_type>COPY_FIELD</calc_type>
+      <field_a>DATA_AUX</field_a>
+      <field_b/>
+      <field_c/>
+      <value_type>Date</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask>dd/MM/yyyy</conversion_mask>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>592</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Filter Data</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <send_true_to>Conversão de Data</send_true_to>
+    <send_false_to/>
+    <compare>
+      <condition>
+        <negated>N</negated>
+        <leftvalue>DATA</leftvalue>
+        <function>=</function>
+        <rightvalue/>
+        <value>
+          <name>constant</name>
+          <type>String</type>
+          <text>20210101</text>
+          <length>-1</length>
+          <precision>-1</precision>
+          <isnull>N</isnull>
+          <mask/>
+        </value>
+      </condition>
+    </compare>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>384</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Gravação Fato</name>
     <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
@@ -508,46 +796,37 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <connection>Datawarehouse Sucos</connection>
+    <connection>Teste de Lookups</connection>
     <commit>100</commit>
     <update_bypassed>N</update_bypassed>
     <lookup>
-      <schema>sw_sucos</schema>
-      <table>dim_organizacional</table>
+      <schema>teste_lookup</schema>
+      <table>fato</table>
       <key>
-        <name>matricula3</name>
-        <field>cod_organizacional</field>
+        <name>id_pessoa</name>
+        <field>id_pessoa</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>DATA_FINAL</name>
+        <field>data</field>
         <condition>=</condition>
         <name2/>
       </key>
       <value>
-        <name>cod_organizacional</name>
-        <rename>matricula3</rename>
+        <name>id_pessoa</name>
+        <rename>id_pessoa</rename>
         <update>N</update>
       </value>
       <value>
-        <name>nome_organizacional</name>
-        <rename>DIRETOR</rename>
-        <update>Y</update>
+        <name>data</name>
+        <rename>DATA_FINAL</rename>
+        <update>N</update>
       </value>
       <value>
-        <name>cod_pai</name>
-        <rename>COD_PAI</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>esquerda</name>
-        <rename>ESQUERDA</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>direita</name>
-        <rename>DIREITA</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nivel</name>
-        <rename>NIVEL</rename>
+        <name>valor</name>
+        <rename>VALOR</rename>
         <update>Y</update>
       </value>
     </lookup>
@@ -560,14 +839,14 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>480</xloc>
-      <yloc>176</yloc>
+      <xloc>1392</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Inicializa Cod_pai Esquerda Direita Nivel</name>
-    <type>Calculator</type>
+    <name>Gravação Fato Data</name>
+    <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -576,67 +855,40 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <failIfNoFile>Y</failIfNoFile>
-    <calculation>
-      <field_name>COD_PAI</field_name>
-      <calc_type>CONSTANT</calc_type>
-      <field_a> </field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>String</value_type>
-      <value_length>1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>NIVEL</field_name>
-      <calc_type>CONSTANT</calc_type>
-      <field_a>0</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>Integer</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>ESQUERDA</field_name>
-      <calc_type>CONSTANT</calc_type>
-      <field_a>0</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>Integer</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
-    <calculation>
-      <field_name>DIREITA</field_name>
-      <calc_type>CONSTANT</calc_type>
-      <field_a>0</field_a>
-      <field_b/>
-      <field_c/>
-      <value_type>Integer</value_type>
-      <value_length>-1</value_length>
-      <value_precision>-1</value_precision>
-      <remove>N</remove>
-      <conversion_mask/>
-      <decimal_symbol/>
-      <grouping_symbol/>
-      <currency_symbol/>
-    </calculation>
+    <connection>Teste de Lookups</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>teste_lookup</schema>
+      <table>fato_data</table>
+      <key>
+        <name>id_pessoa</name>
+        <field>id_pessoa</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>DATA_FINAL</name>
+        <field>data</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_pessoa</name>
+        <rename>id_pessoa</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>data</name>
+        <rename>DATA_FINAL</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>valor</name>
+        <rename>VALOR</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -646,13 +898,72 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>400</yloc>
+      <xloc>1373</xloc>
+      <yloc>372</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>LEITURA FUNCIONARIOS GRUPO 1</name>
+    <name>Gravação Fato Incremento</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Teste de Lookups</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>teste_lookup</schema>
+      <table>fato_incremento</table>
+      <key>
+        <name>id_pessoa</name>
+        <field>id_pessoa</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>DATA_FINAL</name>
+        <field>data</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_pessoa</name>
+        <rename>id_pessoa</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>data</name>
+        <rename>DATA_FINAL</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>valor</name>
+        <rename>VALOR</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1392</xloc>
+      <yloc>64</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Leitura da Fonte</name>
     <type>ExcelInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -678,7 +989,7 @@
     <accept_field/>
     <accept_stepname/>
     <file>
-      <name>/home/tonato/Sources/bi/bi-to-pentaho/treinamento/ARQUIVOS/FUNCIONARIOS GRUPO 1.xlsx</name>
+      <name>/home/tonato/Sources/bi/bi-to-pentaho/treinamento/ARQUIVOS/TESTE_LOOKUP_BI/FATO.xlsx</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -686,23 +997,11 @@
     </file>
     <fields>
       <field>
-        <name>matricula</name>
+        <name>CODIGO</name>
         <type>String</type>
         <length>50</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format>#</format>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>VENDEDOR</name>
-        <type>String</type>
-        <length>250</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
+        <trim_type>both</trim_type>
         <repeat>N</repeat>
         <format/>
         <currency/>
@@ -710,11 +1009,11 @@
         <group/>
       </field>
       <field>
-        <name>matricula2</name>
+        <name>DATA</name>
         <type>String</type>
         <length>50</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
+        <trim_type>both</trim_type>
         <repeat>N</repeat>
         <format>#</format>
         <currency/>
@@ -722,35 +1021,11 @@
         <group/>
       </field>
       <field>
-        <name>GERENTE</name>
-        <type>String</type>
-        <length>250</length>
+        <name>VALOR</name>
+        <type>Number</type>
+        <length>-1</length>
         <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>matricula3</name>
-        <type>String</type>
-        <length>50</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format>#</format>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>DIRETOR</name>
-        <type>String</type>
-        <length>250</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
+        <trim_type>both</trim_type>
         <repeat>N</repeat>
         <format/>
         <currency/>
@@ -760,7 +1035,7 @@
     </fields>
     <sheets>
       <sheet>
-        <name>Sheet1</name>
+        <name>Planilha1</name>
         <startrow>0</startrow>
         <startcol>0</startcol>
       </sheet>
@@ -793,8 +1068,42 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>128</xloc>
-      <yloc>176</yloc>
+      <xloc>176</xloc>
+      <yloc>224</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Remover Coluna Data_Aux e Data</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <select_unspecified>N</select_unspecified>
+      <remove>
+        <name>DATA_AUX</name>
+      </remove>
+      <remove>
+        <name>DATA</name>
+      </remove>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>800</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
