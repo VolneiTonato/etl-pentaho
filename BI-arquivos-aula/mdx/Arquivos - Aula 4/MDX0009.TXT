@@ -1,0 +1,5 @@
+Select
+{[Measures].[Faturamento],[Measures].[Meta Faturamento]} on rows,
+{[Fabrica].[001],[Fabrica].[002],[Fabrica].[003]} on columns
+From
+[dmpresidencia]

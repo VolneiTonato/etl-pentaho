@@ -1,0 +1,6 @@
+Select  Non Empty  
+{[Tempo.Calendario].[2014].[Segundo Semestre].[Terceiro Trimestre].[Setembro],
+[Tempo.Calendario].[2014].[Segundo Semestre].[Terceiro Trimestre].[Setembro].lead(2)} On Rows  ,  
+Non Empty  { [Measures].[Faturamento]}  On Columns 
+FROM [dmpresidencia]
+

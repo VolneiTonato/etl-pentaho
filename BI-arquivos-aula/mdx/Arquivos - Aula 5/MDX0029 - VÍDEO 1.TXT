@@ -1,0 +1,11 @@
+WITH MEMBER [Measures].[STATUS]
+AS
+'iif ([Measures].[Faturamento] >= 800000, 1, 0)'
+SELECT
+NON EMPTY {[Measures].[Faturamento], [Measures].[STATUS]} ON COLUMNS,
+NON EMPTY Order(  Crossjoin([Tempo.Calendario].[2014].[Primeiro Semestre].[Primeiro Trimestre].[Março],
+	{[Produto].[Mate].[Frescor do Verão], [Produto].[Suco de Frutas].[Clean], [Produto].[Suco de Frutas].[Festival de Sabores], 
+	[Produto].[Suco de Frutas].[Light], [Produto].[Suco de Frutas].[Pedaços de Frutas], [Produto].[Suco de Frutas].[Videira do Campo], 
+	[Produto].[Águas Minerais].[Linha Citros], [Produto].[Águas Minerais].[Linha Refrescante], 
+	[Produto].[Águas Minerais].[Sabor da Montanha]}), [Measures].[Faturamento], BDESC) ON ROWS
+FROM [dmpresidencia]

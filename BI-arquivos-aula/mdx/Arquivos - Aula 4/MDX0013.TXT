@@ -1,0 +1,8 @@
+SELECT
+NON EMPTY {[Measures].[Faturamento]} ON COLUMNS,
+NON EMPTY {
+[Cliente].[Sudeste].[RJ]
+, [Cliente].[Sudeste].[SP]
+, [Cliente].[Centro Oeste].[DF]
+, [Cliente].[Sul].[RS]} ON ROWS
+FROM [dmpresidencia]

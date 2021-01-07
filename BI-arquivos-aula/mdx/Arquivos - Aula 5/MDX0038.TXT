@@ -1,0 +1,8 @@
+SELECT
+NON EMPTY {[Measures].[Faturamento]} ON COLUMNS,
+NON EMPTY {[Tempo.Calendario].[Mes].Members} ON ROWS
+FROM [dmpresidencia]
+
+
+
+

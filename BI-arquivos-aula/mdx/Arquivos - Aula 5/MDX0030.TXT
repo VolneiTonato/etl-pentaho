@@ -1,0 +1,7 @@
+WITH MEMBER [Tempo.Calendario].[Média Outubro - Dezembro] 
+AS 'AVG (( {[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children}) , [Measures].[Faturamento])'
+SELECT
+[Measures].[Faturamento] ON COLUMNS,
+{[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children,[Tempo.Calendario].[Média Outubro - Dezembro] } ON ROWS
+FROM [dmpresidencia]
+

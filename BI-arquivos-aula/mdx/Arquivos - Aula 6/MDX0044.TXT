@@ -1,0 +1,11 @@
+WITH MEMBER [Measures].[% TAXA] AS
+'[Measures].[Faturamento]/([Measures].[Faturamento], [Tempo.Calendario].CurrentMember.Parent.Parent.Parent)'
+, FORMAT_STRING = "#,###.00 %"
+Select  Non Empty  
+Exists({ [Tempo.Calendario].[Mes].Members },[Tempo.Calendario].[2013]) On Rows  ,  
+Non Empty  { [Measures].[Faturamento], [Measures].[% TAXA] }  On Columns 
+FROM [dmpresidencia]
+
+
+
+

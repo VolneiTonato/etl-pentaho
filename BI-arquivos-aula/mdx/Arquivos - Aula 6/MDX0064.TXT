@@ -1,0 +1,5 @@
+Select  Non Empty  
+Descendants ([Tempo.Calendario].[2014].[Segundo Semestre], 1) On Rows  ,  
+Non Empty  { [Measures].[Faturamento]}  On Columns 
+FROM [dmpresidencia]
+

@@ -1,0 +1,7 @@
+SELECT
+NON EMPTY {[Measures].[Faturamento]} ON COLUMNS,
+NON EMPTY  Order(  Crossjoin({[Tempo.Calendario].[2014].[Primeiro Semestre].[Primeiro Trimestre].[Março],
+ [Tempo.Calendario].[2014].[Segundo Semestre].[Quarto Trimestre].[Dezembro],
+ [Tempo.Calendario].[2014].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro]},
+	{[Produto].[Marca].Members}), [Measures].[Faturamento], BDESC) ON ROWS
+FROM [dmpresidencia]

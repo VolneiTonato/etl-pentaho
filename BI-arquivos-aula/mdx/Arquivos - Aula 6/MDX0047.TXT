@@ -1,0 +1,8 @@
+WITH MEMBER [Measures].[VARIAÇÃO DO FATURAMENTO] AS
+'([Measures].[Faturamento] - 
+([Measures].[Faturamento], [Tempo.Calendario].CurrentMember.PrevMember))'
+, FORMAT_STRING = "#,###.00"
+Select  Non Empty  
+Exists({ [Tempo.Calendario].[Mes].Members },[Tempo.Calendario].[2013]) On Rows  ,  
+Non Empty  { [Measures].[Faturamento], [Measures].[VARIAÇÃO DO FATURAMENTO] }  On Columns 
+FROM [dmpresidencia]

@@ -1,0 +1,68 @@
+
+-- Comando With
+
+WITH MEMBER [Measures].[Percentual Venda Liquida]
+AS
+'([Measures].[Faturamento Liquido]/[Measures].[Faturamento])*100'
+SELECT
+{[Measures].[Faturamento], [Measures].[Faturamento Liquido], [Measures].[Percentual Venda Liquida]} ON COLUMNS,
+{[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Março]} ON ROWS
+FROM [dmpresidencia]
+
+-- Podemos definir um formato de saida
+
+WITH MEMBER [Measures].[Percentual Venda Liquida]
+AS
+'([Measures].[Faturamento Liquido]/[Measures].[Faturamento])', FORMAT_STRING = "#,###.00 %"
+SELECT
+{[Measures].[Faturamento], [Measures].[Faturamento Liquido], [Measures].[Percentual Venda Liquida]} ON COLUMNS,
+{[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Março]} ON ROWS
+FROM [dmpresidencia]
+
+-- Podemos usar o resulado do With dentro do próprio with
+
+WITH MEMBER [Measures].[Diferenca Faturamento Liquido]
+AS
+'([Measures].[Faturamento] - [Measures].[Faturamento Liquido])'
+MEMBER [Measures].[Percentual Faturamento Liquido]
+AS
+'([Measures].[Diferenca Faturamento Liquido]/[Measures].[Faturamento])', FORMAT_STRING = "#,###.00 %"
+SELECT
+{[Measures].[Faturamento], [Measures].[Faturamento Liquido], [Measures].[Diferenca Faturamento Liquido], 
+[Measures].[Percentual Faturamento Liquido]} ON COLUMNS,
+{[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Março]} ON ROWS
+FROM [dmpresidencia]
+
+-- Podemos ter uma fórmula usando membros de uma dimensão.
+
+WITH MEMBER [Tempo.Calendario].[Variacao Fevereiro X Janeiro]
+AS
+'[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro]/
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro]', FORMAT_STRING = "#,###.00 %"
+SELECT
+[Measures].[Faturamento] ON ROWS,
+{[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro],
+[Tempo.Calendario].[Variacao Fevereiro X Janeiro]} ON COLUMNS
+FROM [dmpresidencia]
+
+
+-- iif - Condição lógica
+
+WITH MEMBER [Measures].[STATUS]
+AS
+'iif ([Measures].[Faturamento] >= 800000, 1, 0)'
+SELECT
+NON EMPTY {[Measures].[Faturamento], [Measures].[STATUS]} ON COLUMNS,
+NON EMPTY Order(  Crossjoin([Tempo.Calendario].[2014].[Primeiro Semestre].[Primeiro Trimestre].[Março],
+	{[Produto].[Mate].[Frescor do Verão], [Produto].[Suco de Frutas].[Clean], [Produto].[Suco de Frutas].[Festival de Sabores], 
+	[Produto].[Suco de Frutas].[Light], [Produto].[Suco de Frutas].[Pedaços de Frutas], [Produto].[Suco de Frutas].[Videira do Campo], 
+	[Produto].[Águas Minerais].[Linha Citros], [Produto].[Águas Minerais].[Linha Refrescante], 
+	[Produto].[Águas Minerais].[Sabor da Montanha]}), [Measures].[Faturamento], BDESC) ON ROWS
+FROM [dmpresidencia]

@@ -1,0 +1,12 @@
+SELECT
+NON EMPTY {[Measures].[Faturamento]} ON COLUMNS,
+NON EMPTY 
+Exists({[Tempo.Calendario].[Mes].Members}
+, [Tempo.Calendario].[2013]) ON ROWS
+FROM [dmpresidencia]
+
+
+
+
+
+

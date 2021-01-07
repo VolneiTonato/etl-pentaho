@@ -1,0 +1,11 @@
+WITH SET [Quarto Trimestre 2013]
+AS '[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children'
+MEMBER [Tempo.Calendario].[Soma Outubro - Dezembro] 
+AS 'SUM (( {[Quarto Trimestre 2013]}) , [Measures].[Faturamento])'
+SELECT
+[Measures].[Faturamento] ON COLUMNS,
+{[Quarto Trimestre 2013], [Tempo.Calendario].[Soma Outubro - Dezembro] } ON ROWS
+FROM [dmpresidencia]
+
+
+

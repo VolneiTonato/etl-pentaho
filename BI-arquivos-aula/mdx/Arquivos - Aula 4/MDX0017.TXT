@@ -1,0 +1,9 @@
+SELECT
+NON EMPTY {[Measures].[Faturamento]} ON COLUMNS,
+NON EMPTY ORDER( 
+{[Tempo.Calendario].[2014].[Primeiro Semestre].[Primeiro Trimestre].[Março],
+ [Tempo.Calendario].[2014].[Segundo Semestre].[Quarto Trimestre].[Dezembro],
+ [Tempo.Calendario].[2014].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro]}
+, [Measures].[Faturamento]
+, BDESC ) ON ROWS
+FROM [dmpresidencia]

@@ -1,0 +1,13 @@
+WITH 
+MEMBER [Measures].[FATURAMENTO 2014] AS
+'([Measures].[Faturamento])', FORMAT_STRING = "#,###.00"
+MEMBER [Measures].[FATURAMENTO 2013] AS
+'([Measures].[Faturamento], 
+ParallelPeriod ([Tempo.Calendario].[Ano], -1, [Tempo.Calendario].CurrentMember))'
+, FORMAT_STRING = "#,###.00"
+MEMBER [Measures].[VARIAÇÃO] AS
+'([Measures].[FATURAMENTO 2014]/[Measures].[FATURAMENTO 2013])-1', FORMAT_STRING = "#,###.00 %"
+Select  Non Empty  
+Exists({ [Tempo.Calendario].[Mes].Members },[Tempo.Calendario].[2014]) On Rows  ,  
+Non Empty  { [Measures].[FATURAMENTO 2014], [Measures].[FATURAMENTO 2013], [Measures].[VARIAÇÃO]}  On Columns 
+FROM [dmpresidencia]

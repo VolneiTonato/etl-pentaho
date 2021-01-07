@@ -1,0 +1,6 @@
+WITH MEMBER [Measures].[FATURMENTO YTD] AS
+'Avg(PeriodsToDate ([Tempo.Calendario].[Ano], [Tempo.Calendario].CurrentMember),[Measures].[Faturamento])', FORMAT_STRING = "#,###.00"
+Select  Non Empty  
+Exists({ [Tempo.Calendario].[Mes].Members },[Tempo.Calendario].[2014]) On Rows  ,  
+Non Empty  { [Measures].[Faturamento], [Measures].[FATURMENTO YTD]}  On Columns 
+FROM [dmpresidencia]

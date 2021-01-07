@@ -1,0 +1,10 @@
+WITH MEMBER [Tempo.Calendario].[Variacao Fevereiro X Janeiro]
+AS
+'[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro]/
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro]', FORMAT_STRING = "#,###.00 %"
+SELECT
+[Measures].[Faturamento] ON ROWS,
+{[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro],
+[Tempo.Calendario].[Variacao Fevereiro X Janeiro]} ON COLUMNS
+FROM [dmpresidencia]

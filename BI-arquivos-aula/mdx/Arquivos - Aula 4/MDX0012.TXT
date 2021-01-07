@@ -1,0 +1,5 @@
+SELECT
+NON EMPTY {[Measures].[Faturamento]} ON COLUMNS,
+NON EMPTY CrossJoin({[Fabrica].Members}, 
+CrossJoin({[Cliente].[Regiao].Members}, {[Produto].[Categoria].Members})) ON ROWS
+FROM [dmpresidencia]

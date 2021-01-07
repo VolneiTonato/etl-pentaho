@@ -1,0 +1,17 @@
+WITH MEMBER [Tempo.Calendario].[Desvio Outubro - Dezembro] 
+AS 'STDEV (( {[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children}) , [Measures].[Faturamento])'
+MEMBER [Tempo.Calendario].[Desvio Padrão Outubro - Dezembro] 
+AS 'STDEVP (( {[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children}) , [Measures].[Faturamento])'
+MEMBER [Tempo.Calendario].[Variancia Outubro - Dezembro] 
+AS 'VAR (( {[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children}) , [Measures].[Faturamento])'
+MEMBER [Tempo.Calendario].[Variancia Padrão Outubro - Dezembro] 
+AS 'VARP (( {[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children}) , [Measures].[Faturamento])'
+SELECT
+[Measures].[Faturamento] ON COLUMNS,
+{[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children
+,[Tempo.Calendario].[Desvio Outubro - Dezembro]
+,[Tempo.Calendario].[Desvio Padrão Outubro - Dezembro]
+,[Tempo.Calendario].[Variancia Outubro - Dezembro] 
+,[Tempo.Calendario].[Variancia Padrão Outubro - Dezembro]  } ON ROWS
+FROM [dmpresidencia]
+

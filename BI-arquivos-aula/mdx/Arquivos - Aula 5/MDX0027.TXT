@@ -1,0 +1,13 @@
+WITH MEMBER [Measures].[Diferenca Faturamento Liquido]
+AS
+'([Measures].[Faturamento] - [Measures].[Faturamento Liquido])'
+MEMBER [Measures].[Percentual Faturamento Liquido]
+AS
+'([Measures].[Diferenca Faturamento Liquido]/[Measures].[Faturamento])', FORMAT_STRING = "#,###.00 %"
+SELECT
+{[Measures].[Faturamento], [Measures].[Faturamento Liquido], [Measures].[Diferenca Faturamento Liquido], 
+[Measures].[Percentual Faturamento Liquido]} ON COLUMNS,
+{[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Março]} ON ROWS
+FROM [dmpresidencia]

@@ -1,0 +1,9 @@
+WITH MEMBER [Measures].[Percentual Venda Liquida]
+AS
+'([Measures].[Faturamento Liquido]/[Measures].[Faturamento])*100'
+SELECT
+{[Measures].[Faturamento], [Measures].[Faturamento Liquido], [Measures].[Percentual Venda Liquida]} ON COLUMNS,
+{[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro], 
+[Tempo.Calendario].[2013].[Primeiro Semestre].[Primeiro Trimestre].[Março]} ON ROWS
+FROM [dmpresidencia]

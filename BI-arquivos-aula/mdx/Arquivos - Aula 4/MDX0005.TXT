@@ -1,0 +1,6 @@
+Select
+{[Fabrica].[001],[Fabrica].[002]} on columns,
+{[Produto].[Marca].members} on rows
+From
+[dmpresidencia]
+where {[Measures].[Faturamento]}

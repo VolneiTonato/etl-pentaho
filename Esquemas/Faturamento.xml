@@ -1,0 +1,16 @@
+<Schema name="Nutrire">
+  <Cube name="faturamento" visible="true" cache="true" enabled="true">
+    <Table name="faturamento" schema="nutrire">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sku" highCardinality="false" name="sku">
+      <Hierarchy name="sku" visible="true" hasAll="true" allMemberName="Todos" primaryKey="sku">
+        <Table name="faturamento" schema="nutrire">
+        </Table>
+        <Level name="sku" visible="true" column="sku" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Faturamento" column="faturamento" datatype="Numeric" formatString="#,###.00" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>

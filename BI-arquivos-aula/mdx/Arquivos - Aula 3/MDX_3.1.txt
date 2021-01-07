@@ -1,0 +1,95 @@
+SELECT
+NON EMPTY {[Measures].[Faturamento], [Measures].[Margem]} ON COLUMNS,
+NON EMPTY {[Tempo.Calendario].[2018], [Tempo.Calendario].[2019]} ON ROWS
+FROM [dmpresidencia]
+WHERE {[Fabrica].[001]}
+
+
+SELECT 
+NON EMPTY {[Measures].[Faturamento], [Measures].[Margem]} ON COLUMNS,
+NON EMPTY {[Tempo.Calendario].[Todos].Children} ON ROWS
+FROM 
+[dmpresidencia]
+
+
+
+SELECT 
+NON EMPTY {[Measures].[Faturamento], [Measures].[Margem]} ON COLUMNS,
+NON EMPTY {[Tempo.Calendario].[2018], [Tempo.Calendario].[2019]} ON ROWS
+FROM 
+[dmpresidencia]
+WHERE {[Fabrica].[001]}
+
+
+
+
+SELECT 
+NON EMPTY {[Measures].[Faturamento], [Measures].[Margem]} ON COLUMNS,
+NON EMPTY {
+    [Tempo.Calendario].[2018].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro],
+    [Tempo.Calendario].[2018].[Primeiro Semestre].[Primeiro Trimestre].[Fevereiro],
+    [Tempo.Calendario].[2018].[Primeiro Semestre].[Primeiro Trimestre].[Março]
+} ON ROWS
+FROM 
+[dmpresidencia]
+WHERE {[Fabrica].[001]}
+
+
+SELECT 
+NON EMPTY {[Measures].[Faturamento], [Measures].[Margem]} ON COLUMNS,
+NON EMPTY {
+    [Tempo.Calendario].[2018].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro]:[Tempo.Calendario].[2018].[Primeiro Semestre].[Primeiro Trimestre].[Março]
+} ON ROWS
+FROM 
+[dmpresidencia]
+WHERE {[Fabrica].[001]}
+
+
+SELECT 
+NON EMPTY {[Measures].[Faturamento], [Measures].[Margem]} ON COLUMNS,
+NON EMPTY {
+    [Tempo.Calendario].[2018].[Primeiro Semestre].[Primeiro Trimestre].[Janeiro]:[Tempo.Calendario].[2018].[Primeiro Semestre].[Primeiro Trimestre].[Março],
+    [Tempo.Calendario].[2018].[Segundo Semestre].[Terceiro Trimestre].[Julho]:[Tempo.Calendario].[2018].[Segundo Semestre].[Terceiro Trimestre].[Setembro]
+} ON ROWS
+FROM 
+[dmpresidencia]
+WHERE {[Fabrica].[001]}
+
+
+SELECT 
+NON EMPTY {[Fabrica].Children} ON COLUMNS,
+NON EMPTY {[Produto].[Marca].members} ON ROWS
+FROM 
+[dmpresidencia]
+where {[Measures].[Faturamento]}
+
+
+
+SELECT 
+NON EMPTY {[Fabrica].Children} ON COLUMNS,
+{[Produto].[Mate].[Frescor do Verão]:[Produto].[Suco de Frutas].[Pedaços de Frutas]} ON ROWS
+FROM 
+[dmpresidencia]
+where {[Measures].[Faturamento]}
+
+
+
+--listar apenas um produto de uma marca. Marca "Aguas Minerais" e Produto Linha Citros
+
+SELECT 
+NON EMPTY {[Fabrica].Children} ON COLUMNS,
+NON EMPTY {[Produto].[Águas Minerais].[Linha Citros]} ON ROWS
+FROM 
+[dmpresidencia]
+where {[Measures].[Faturamento]}
+
+
+--listar todos os produtos de uma marca com children
+
+SELECT 
+NON EMPTY {[Fabrica].Children} ON COLUMNS,
+NON EMPTY {[Produto].[Águas Minerais].[Linha Citros].children} ON ROWS
+FROM 
+[dmpresidencia]
+where {[Measures].[Faturamento]}
+

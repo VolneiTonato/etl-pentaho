@@ -1,0 +1,7 @@
+WITH SET [Quarto Trimestre 2013]
+AS '[Tempo.Calendario].[2013].[Segundo Semestre].[Quarto Trimestre].Children'
+SELECT
+[Measures].[Faturamento] ON COLUMNS,
+{[Quarto Trimestre 2013]} ON ROWS
+FROM [dmpresidencia]
+
